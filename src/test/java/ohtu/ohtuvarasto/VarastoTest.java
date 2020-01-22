@@ -65,4 +65,82 @@ public class VarastoTest {
         assertEquals(4, varasto.paljonkoMahtuu(), vertailuTarkkuus);
     }
 
+    @Test
+    public void negatiivinenLisääminenEiMuutaSaldoa(){
+        varasto.lisaaVarastoon(-1);
+
+        assertEquals(10, varasto.paljonkoMahtuu(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void liikaaOttaminenNollaaSaldon() {
+        varasto.lisaaVarastoon(8);
+
+        varasto.otaVarastosta(20);
+
+        assertEquals(0, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void liikaaOttaminenPalauttaaKaiken() {
+        varasto.lisaaVarastoon(8);
+
+        assertEquals(8, varasto.otaVarastosta(20), vertailuTarkkuus);
+    }
+
+    @Test
+    public void negatiivinenOttaminenPalauttaaNolla() {
+        varasto.lisaaVarastoon(8);
+
+        assertEquals(0, varasto.otaVarastosta(-20), vertailuTarkkuus);
+    }
+
+    @Test
+    public void toStringToimiiOikein() {
+        varasto.lisaaVarastoon(8);
+
+        assertEquals("saldo = 8.0, vielä tilaa 2.0", varasto.toString());
+    }
+
+    @Test
+    public void liikaaLisääminenTäyttääVaraston(){
+        varasto.lisaaVarastoon(100);
+
+        assertEquals(0.0, varasto.paljonkoMahtuu(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void varastonLuominenNegatiivisellaTilavuudellaLuoKäyttökelvottoman(){
+        varasto = new Varasto(-10);
+
+        assertEquals(0.0, varasto.getTilavuus(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void varstonLuominenAlkusaldollaLuoOikeanTilavuuden(){
+        varasto = new Varasto(10, 2);
+
+        assertEquals(10.0, varasto.getTilavuus(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void varastonLuominenAlkusaldollaJaNegatiivisellaTilavuudellaLuoKäyttökelvottoman(){
+        varasto = new Varasto(-10, 2);
+
+        assertEquals(0.0, varasto.getTilavuus(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void varastonLuominenNegatiivisellaAlkusaldollaLuoTyhjänVaraston(){
+        varasto = new Varasto(10, -2);
+
+        assertEquals(0.0, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void varastonLuominenTilavuuttaSuuremmallaAlkusaldollaLuoTäydenVaraston(){
+        varasto = new Varasto(10, 20);
+
+        assertEquals(0.0, varasto.paljonkoMahtuu(), vertailuTarkkuus);
+    }
 }
